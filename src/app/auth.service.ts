@@ -26,27 +26,26 @@ export class Auth implements IAuth {
 @Injectable()
 export class AuthService {
 
-  private _url: string = "http://localhost:8080/auth/login";
+  private _url: string = "http://localhost:8080/api/rest/security/auth";
+  private _url2: string = "http://localhost:8080/#/";
 
   private httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json'
-
-    })
+    }),
+    responseType: 'text' as 'json'
   };
 
   constructor(private http: HttpClient) { }
 
-  auth(body: IAuth, errorCallback = this.errorHandler): Observable<IAuthResponse>{
+  auth(body: IAuth, errorCallback = this.errorHandler): Observable<string>{
     
-    let res = this.http.post<IAuthResponse>(this._url, body, this.httpOptions)
-    .pipe(catchError(errorCallback));
-
-    return res;
+    return this.http.post<string>(this._url, body, this.httpOptions)
+                    .pipe(catchError(errorCallback));
   }
 
-  redirectToHome(){
-    window.location.href = 'http://localhost:8080/#/home';
+  redirectToHome(username:string, token:string){
+    window.location.href = this._url2 + "?username=" + username + "&token=" + token;
   }
 
   errorHandler(error: HttpErrorResponse) {

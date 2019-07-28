@@ -12,7 +12,7 @@ export class AppComponent {
 
   private authBody: IAuth = new Auth();
 
-  private authResponse: IAuthResponse;
+  private authResponse: IAuthResponse = {"token": null};
   private authError;
 
 
@@ -26,19 +26,21 @@ export class AppComponent {
 
 
   handleSuccess(data) {
-    this.authResponse = data;
+    this.authResponse = JSON.parse(data);
 
-    localStorage.setItem('_m', JSON.stringify(data));
+    console.log(this.authResponse.token);
+
+    //localStorage.setItem('token', JSON.stringify(data));
     // localStorage.setItem('ngStorage-nome', this.authBody.username);
     // localStorage.setItem('ngStorage-pass', this.authBody.password);
     // localStorage.setItem('ngStorage-token', "");
     
-    this._authService.redirectToHome();
+    this._authService.redirectToHome(this.authBody.username, this.authResponse.token);
     //redirect to Home
   }
 
   handleError(data) {
-    alert('Error');
+    console.log(data);
   }
 
 
