@@ -6,7 +6,7 @@
             <!-- <div> {{authError | json}} </div> -->
             <input [(ngModel)]="authBody.username" type="text"  name="username" placeholder="Username">
             <input [(ngModel)]="authBody.password" type="password" name="password" placeholder="Password">
-            {{ authResponse.token }}
+            {{ authErrorResponse.msg }}
             <div class="forgot-remember">
                     <label class="control control-checkbox">
                             Remember me

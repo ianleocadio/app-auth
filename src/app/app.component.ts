@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { AuthService, IAuth, Auth } from './auth.service';
-import { IAuthResponse } from './AuthReponse';
+import { IAuthResponse, IAuthErrorResponse } from './AuthReponse';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +13,7 @@ export class AppComponent {
   private authBody: IAuth = new Auth();
 
   private authResponse: IAuthResponse = {"token": null};
-  private authError;
+  private authErrorResponse: IAuthErrorResponse = {msg: undefined, status: undefined};
 
 
   constructor(private _authService: AuthService) {};
@@ -28,8 +28,6 @@ export class AppComponent {
   handleSuccess(data) {
     this.authResponse = JSON.parse(data);
 
-    console.log(this.authResponse.token);
-
     //localStorage.setItem('token', JSON.stringify(data));
     // localStorage.setItem('ngStorage-nome', this.authBody.username);
     // localStorage.setItem('ngStorage-pass', this.authBody.password);
@@ -40,7 +38,8 @@ export class AppComponent {
   }
 
   handleError(data) {
-    console.log(data);
+    this.authErrorResponse = JSON.parse(data.error);
+    console.log(this.authErrorResponse);
   }
 
 
